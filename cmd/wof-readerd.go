@@ -3,8 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	// "github.com/whosonfirst/go-whosonfirst-readwrite/http"	
-	"github.com/whosonfirst/go-whosonfirst-readwrite-sqlite/http"
+	"github.com/whosonfirst/go-whosonfirst-readwrite/http"	
 	"github.com/whosonfirst/go-whosonfirst-readwrite-sqlite/reader"
 	"log"
 	"os"

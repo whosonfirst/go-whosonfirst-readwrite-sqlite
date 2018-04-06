@@ -1,5 +1,7 @@
 package http
 
+// PLEASE MOVE THIS IN TO go-whosonfirst-readwrite
+
 import (
 	"github.com/whosonfirst/go-whosonfirst-readwrite/reader"
 	"io"
