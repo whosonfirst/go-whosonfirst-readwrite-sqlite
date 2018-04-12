@@ -10,6 +10,7 @@ self:   prep rmdeps
 	cp -r bytes src/github.com/whosonfirst/go-whosonfirst-readwrite/
 	cp -r cache src/github.com/whosonfirst/go-whosonfirst-readwrite/
 	cp -r flags src/github.com/whosonfirst/go-whosonfirst-readwrite/
+	cp -r http src/github.com/whosonfirst/go-whosonfirst-readwrite/
 	cp -r reader src/github.com/whosonfirst/go-whosonfirst-readwrite/
 	cp -r utils src/github.com/whosonfirst/go-whosonfirst-readwrite/
 	cp -r writer src/github.com/whosonfirst/go-whosonfirst-readwrite/
@@ -40,8 +41,9 @@ vendor-deps: rmdeps deps
 fmt:
 	go fmt bytes/*.go
 	go fmt cache/*.go
-	go fmt flags/*.go
 	go fmt cmd/*.go
+	go fmt flags/*.go
+	go fmt http/*.go
 	go fmt reader/*.go
 	go fmt utils/*.go
 	go fmt writer/*.go

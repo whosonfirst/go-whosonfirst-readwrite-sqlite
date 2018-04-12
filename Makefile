@@ -26,7 +26,6 @@ deps:
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-sqlite-features"
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-uri"
 	rm -rf src/github.com/whosonfirst/go-whosonfirst-sqlite-features/vendor/github.com/whosonfirst/go-whosonfirst-sqlite
-	cp -r http src/github.com/whosonfirst/go-whosonfist-readwrite/
 
 vendor-deps: rmdeps deps
 	if test ! -d vendor; then mkdir vendor; fi
