@@ -2,22 +2,30 @@ package writer
 
 import (
 	"errors"
+	"fmt"
 	wof_writer "github.com/whosonfirst/go-whosonfirst-readwrite/writer"
-	wof_sqlite "github.com/whosonfirst/go-whosonfirst-sqlite"
-	wof_database "github.com/whosonfirst/go-whosonfirst-sqlite/database"
+	"github.com/whosonfirst/go-whosonfirst-sqlite"
+	"github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
+	"github.com/whosonfirst/go-whosonfirst-sqlite/database"
 	"github.com/whosonfirst/go-whosonfirst-uri"
 	"io"
 )
 
 type SQLiteWriter struct {
 	wof_writer.Writer
-	database *wof_database.SQLiteDatabase
-	table    wof_sqlite.Table
+	database *database.SQLiteDatabase
+	table    sqlite.Table
 }
 
 func NewSQLiteWriter(dsn string, args ...interface{}) (wof_writer.Writer, error) {
 
-	db, tbl, err := database.NewSQLiteDatabase(dsn)
+	db, err := database.NewDBWithDriver("sqlite3", dsn)
+
+	if err != nil {
+		return nil, err
+	}
+
+	tbl, err := tables.NewGeoJSONTableWithDatabase(db)
 
 	if err != nil {
 		return nil, err
@@ -39,5 +47,5 @@ func (wr *SQLiteWriter) Write(path string, fh io.ReadCloser) error {
 		return err
 	}
 
-	return errors.New("Please write me")
+	return errors.New(fmt.Sprintf("Please write %d (%s) to the database", id, path))
 }

@@ -1,28 +1,46 @@
 package reader
 
 import (
+	"errors"
 	"fmt"
-	"github.com/whosonfirst/go-whosonfirst-readwrite-sqlite/database"
 	"github.com/whosonfirst/go-whosonfirst-readwrite/bytes"
 	wof_reader "github.com/whosonfirst/go-whosonfirst-readwrite/reader"
-	wof_sqlite "github.com/whosonfirst/go-whosonfirst-sqlite"
-	wof_database "github.com/whosonfirst/go-whosonfirst-sqlite/database"
+	"github.com/whosonfirst/go-whosonfirst-sqlite"
+	"github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
+	"github.com/whosonfirst/go-whosonfirst-sqlite/database"
+	"github.com/whosonfirst/go-whosonfirst-sqlite/utils"
 	"github.com/whosonfirst/go-whosonfirst-uri"
 	"io"
 )
 
 type SQLiteReader struct {
 	wof_reader.Reader
-	database *wof_database.SQLiteDatabase
-	table    wof_sqlite.Table
+	database *database.SQLiteDatabase
+	table    sqlite.Table
 }
 
 func NewSQLiteReader(dsn string, args ...interface{}) (wof_reader.Reader, error) {
 
-	db, tbl, err := database.NewSQLiteDatabase(dsn)
+	db, err := database.NewDBWithDriver("sqlite3", dsn)
 
 	if err != nil {
 		return nil, err
+	}
+
+	tbl, err := tables.NewGeoJSONTable()
+
+	if err != nil {
+		return nil, err
+	}
+
+	ok, err := utils.HasTable(db, tbl.Name())
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok == false {
+		return nil, errors.New(fmt.Sprintf("Database is missing %s table", tbl.Name()))
 	}
 
 	r := SQLiteReader{

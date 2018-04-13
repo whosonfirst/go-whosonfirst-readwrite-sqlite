@@ -7,7 +7,6 @@ prep:
 self:   prep rmdeps
 	if test -d src; then rm -rf src; fi
 	mkdir -p src/github.com/whosonfirst/go-whosonfirst-readwrite-sqlite
-	cp -r database src/github.com/whosonfirst/go-whosonfirst-readwrite-sqlite/
 	cp -r reader src/github.com/whosonfirst/go-whosonfirst-readwrite-sqlite/
 	cp -r writer src/github.com/whosonfirst/go-whosonfirst-readwrite-sqlite/
 	cp -r vendor/* src/
@@ -16,9 +15,6 @@ rmdeps:
 	if test -d src; then rm -rf src; fi 
 
 build:	fmt bin
-
-docker-build:
-	docker build -t wof-readwrited .
 
 deps:
 	@GOPATH=$(GOPATH) go get -u "github.com/whosonfirst/go-whosonfirst-readwrite/..."
@@ -35,10 +31,9 @@ vendor-deps: rmdeps deps
 	rm -rf src
 
 fmt:
-	go fmt database/*.go
-	go fmt http/*.go
 	go fmt reader/*.go
 	go fmt writer/*.go
 
 bin: 	self
-	GOPATH=$(GOPATH) go build -o bin/wof-readerd cmd/wof-readerd.go
+	GOPATH=$(GOPATH) go build -o bin/wof-sqlite-copy cmd/wof-sqlite-copy.go
+	GOPATH=$(GOPATH) go build -o bin/wof-sqlite-readerd cmd/wof-sqlite-readerd.go
