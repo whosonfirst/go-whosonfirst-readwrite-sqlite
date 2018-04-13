@@ -1,13 +1,12 @@
 package writer
 
 import (
-	"errors"
 	"fmt"
+	"github.com/whosonfirst/go-whosonfirst-geojson-v2/feature"
 	wof_writer "github.com/whosonfirst/go-whosonfirst-readwrite/writer"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
 	"github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
 	"github.com/whosonfirst/go-whosonfirst-sqlite/database"
-	"github.com/whosonfirst/go-whosonfirst-uri"
 	"io"
 )
 
@@ -41,13 +40,13 @@ func NewSQLiteWriter(dsn string, args ...interface{}) (wof_writer.Writer, error)
 
 func (wr *SQLiteWriter) Write(path string, fh io.ReadCloser) error {
 
-	id, err := uri.IdFromPath(path)
+     	f, err := feature.LoadFeatureFromReader(fh)
 
 	if err != nil {
 		return err
 	}
 
-	return errors.New(fmt.Sprintf("Please write %d (%s) to the database", id, path))
+	return wr.table.IndexRecord(wr.database, f)
 }
 
 func (wr *SQLiteWriter) URI(path string) string {
