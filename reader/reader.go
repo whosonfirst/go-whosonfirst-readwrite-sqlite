@@ -77,3 +77,7 @@ func (r *SQLiteReader) Read(path string) (io.ReadCloser, error) {
 
 	return bytes.ReadCloserFromBytes([]byte(body))
 }
+
+func (r *SQLiteReader) URI(path string) string {
+     return fmt.Sprintf("sqlite://%s/%s#%s", r.database.DSN(), r.table.Name(), path)
+}

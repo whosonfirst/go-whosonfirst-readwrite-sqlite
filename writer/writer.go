@@ -49,3 +49,7 @@ func (wr *SQLiteWriter) Write(path string, fh io.ReadCloser) error {
 
 	return errors.New(fmt.Sprintf("Please write %d (%s) to the database", id, path))
 }
+
+func (wr *SQLiteWriter) URI(path string) string {
+     return fmt.Sprintf("sqlite://%s/%s#%s", wr.database.DSN(), wr.table.Name(), path)
+}
