@@ -35,5 +35,5 @@ fmt:
 	go fmt writer/*.go
 
 bin: 	self
-	GOPATH=$(GOPATH) go build -o bin/wof-sqlite-copy cmd/wof-sqlite-copy.go
+	# GOPATH=$(GOPATH) go build -o bin/wof-sqlite-copy cmd/wof-sqlite-copy.go
 	GOPATH=$(GOPATH) go build -o bin/wof-sqlite-readerd cmd/wof-sqlite-readerd.go
